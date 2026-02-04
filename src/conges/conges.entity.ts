@@ -1,19 +1,25 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from '../users/users.entity';
 
+export enum CongeStatus {
+  EN_ATTENTE = 'EN_ATTENTE',
+  VALIDE = 'VALIDE',
+  REFUSE = 'REFUSE',
+}
+
 @Entity()
 export class Conge {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'date' })
   dateDebut: Date;
 
-  @Column()
+  @Column({ type: 'date' })
   dateFin: Date;
 
-  @Column({ default: 'EN_ATTENTE' })
-  statut: 'EN_ATTENTE' | 'VALIDE' | 'REFUSE';
+  @Column({ type: 'enum', enum: CongeStatus, default: CongeStatus.EN_ATTENTE })
+  statut: CongeStatus;
 
   @ManyToOne(() => User, user => user.conges)
   user: User;

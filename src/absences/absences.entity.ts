@@ -12,10 +12,10 @@ export class Absence {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'date' })
   dateDebut: Date;
 
-  @Column()
+  @Column({ type: 'date' })
   dateFin: Date;
 
   @Column({ type: 'enum', enum: AbsenceStatus, default: AbsenceStatus.EN_ATTENTE })

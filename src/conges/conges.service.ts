@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Conge } from './conges.entity';
+import { Conge, CongeStatus } from './conges.entity';
 import { User } from '../users/users.entity';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class CongesService {
     const conge = this.congeRepository.create({
       ...data,
       user: { id: userId } as User, // Relation ManyToOne avec User
-      statut: 'EN_ATTENTE',
+      statut: CongeStatus.EN_ATTENTE,
     });
     return this.congeRepository.save(conge);
   }
@@ -43,7 +43,7 @@ export class CongesService {
       relations: ['user'],
     });
     if (!conge) throw new NotFoundException('Demande introuvable');
-    conge.statut = 'VALIDE';
+    conge.statut = CongeStatus.VALIDE;
     return this.congeRepository.save(conge);
   }
 
@@ -54,7 +54,7 @@ export class CongesService {
       relations: ['user'],
     });
     if (!conge) throw new NotFoundException('Demande introuvable');
-    conge.statut = 'REFUSE';
+    conge.statut = CongeStatus.REFUSE;
     return this.congeRepository.save(conge);
   }
 }

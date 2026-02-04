@@ -1,10 +1,10 @@
-;import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Conge } from '../conges/conges.entity';
 import { Absence } from '../absences/absences.entity';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
-  USER = 'USER',
+  EMPLOYEE = 'EMPLOYEE',
 }
 
 @Entity()
@@ -15,13 +15,13 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
-   @Column()
+  @Column()
   password: string;
 
-  @Column({ type: 'enum', enum: ['ADMIN', 'EMPLOYEE'], default: 'EMPLOYEE' })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.EMPLOYEE })
   role: UserRole;
 
   @OneToMany(() => Conge, (conge) => conge.user)
